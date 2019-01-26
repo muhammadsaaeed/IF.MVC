@@ -1,0 +1,126 @@
+﻿@model iForce.Core.Models.UserListModel
+
+@{
+    ViewBag.Title = "Users";
+    iForce.Core.Models.UserViewModel displayModel = null;
+    string customClasses = "";
+}
+
+<h2>Users </h2>
+
+@if (Model.Notification != null && String.IsNullOrEmpty(Model.Notification.Success) == false)
+{
+    <div class="alert alert-success">
+        @Model.Notification.Success
+    </div>
+}
+
+@if (Model.Notification != null && String.IsNullOrEmpty(Model.Notification.Error) == false)
+{
+    <div class="alert alert-danger">
+        @Model.Notification.Error
+    </div>
+}
+
+<p>
+    <button class="btn btn-primary" id='createNew'>Add New</button>
+</p>
+
+@using (Html.BeginForm("Index", "User", FormMethod.Post))
+{
+    <table class="table user-grid">
+        <tr>
+            <th class="sortable" onclick="javascript: PagerClick(@Model.Pagination.CurrentPageIndex, 'ID');">
+                @Html.DisplayNameFor(model => displayModel.ID)
+                <i class="icon-sort"></i>
+            </th>
+            <th class="sortable" onclick="javascript: PagerClick(@Model.Pagination.CurrentPageIndex, 'Name');">
+                @Html.DisplayNameFor(model => displayModel.Name)
+                <i class="icon-sort"></i>
+            </th>
+            <th class="sortable" onclick="javascript: PagerClick(@Model.Pagination.CurrentPageIndex, 'Role');">
+                @Html.DisplayNameFor(model => displayModel.UserRoleId)
+                <i class="icon-sort"></i>
+            </th>
+            <th class="sortable" onclick="javascript: PagerClick(@Model.Pagination.CurrentPageIndex, 'UpdateAt');">
+                @Html.DisplayNameFor(model => displayModel.UpdateAt)
+                <i class="icon-sort"></i>
+            </th>
+            <th class="sortable" onclick="javascript: PagerClick(@Model.Pagination.CurrentPageIndex, 'Status');">
+                @Html.DisplayNameFor(model => displayModel.UserStatusId)
+                <i class="icon-sort"></i>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.UserList)
+        {
+            if(item.StatusString == "Disabled")
+            {
+                customClasses = "disabled";
+            }
+            else
+            {
+                customClasses = "";
+            }
+            <tr>
+                <td class="@customClasses">
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td class="name-col @customClasses">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="@customClasses">
+                    @Html.DisplayFor(modelItem => item.RoleString)
+                </td>
+                <td class="@customClasses">
+                    @Html.DisplayFor(modelItem => item.UpdateAt)
+                </td>
+                <td class="@customClasses">
+                    @Html.DisplayFor(modelItem => item.StatusString)
+                </td>
+                <td class="actions">
+                    <span class="anchor" onclick="editUser(@item.ID)" id='edituser'>Edit</span> |
+                    <span class="anchor" onclick="deleteUser(@item.ID)" id='edituser'>Delete</span>
+                </td>
+            </tr>
+        }
+        
+    </table>
+    if (Model.UserList.Count() == 0)
+    {
+        <table class="no-record-tbl">
+            <tr>
+                <td class="no-record">
+                    No record exists!
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+        @Html.Partial("_pagination", Model.Pagination)
+    }
+    <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />
+    <input type="hidden" id="hfSortBy" name="sortBy" value="@Model.Pagination.SortBy" />
+    <input type="hidden" id="hfSortOrder" value="@Model.Pagination.SortOrder" name="sortOrder" />
+
+}
+
+
+<div id='userAddModal' class='modal fade in' tabindex="-1" role="dialog" data-url='@Url.Action("Create")'>
+    <div id='userAddContainer'>
+    </div>
+</div>
+<div id='userEditModal' class='modal fade in' tabindex="-1" role="dialog" data-url='@Url.Action("Edit")'>
+    <div id='userEditContainer'>
+    </div>
+</div>
+<div id='userDeleteModal' class='modal fade in' tabindex="-1" role="dialog" data-url='@Url.Action("Delete")'>
+    <div id='userDeleteContainer'>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/Site.js"></script>
+}

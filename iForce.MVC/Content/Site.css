@@ -1,0 +1,69 @@
+﻿
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: OpenSans-Regular, Arial;
+}
+@font-face {
+    font-family: 'OpenSans-Regular';
+    src: url('../fonts/OpenSans/Regular/OpenSans-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-Bold';
+    src: url('../fonts/OpenSans/Bold/OpenSans-Bold.ttf') format('truetype');
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.no-record-tbl{
+    width: 100%;
+    border-bottom: 1px solid #eaeaea;
+    border-top: 1px solid #eaeaea;
+}
+.no-record{
+    font-weight: bold;
+    height: 110px;
+    vertical-align: middle !important;
+}
+.anchor{
+    cursor: pointer;
+    color: #428bca;
+}
+/*Bootstrap customization*/
+.modal-title {
+    display: inline;
+    font-size: 20px;
+    line-height: 20px;
+}
+.user-grid .name-col{
+    width: 20em;
+}
+
+.user-grid .actions{
+    width: 10em;
+}
+.sortable{
+    cursor: pointer;
+}
+.user-grid .disabled{
+    color: red;
+}
+.text-bold{
+    font-weight: bold;
+}
